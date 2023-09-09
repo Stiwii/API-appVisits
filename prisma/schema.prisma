@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  username String    @unique
+  password String    // Considera usar hashing para la seguridad de las contraseñas
+  role     UserRole  @default(RECEPCION)
+  visits   Visit[]
+
+  @@index([username, password])
+}
+
+enum UserRole {
+  RECEPCION
+  SUPERVISOR
+}
+
+model Visit {
+  id          Int      @id @default(autoincrement())
+  date        DateTime
+  time        DateTime
+  fullName    String
+  idNumber    String   @unique
+  entryDate   DateTime @default(now())
+  visitReason String
+  department  Department  @default(SERVICIO_AL_CLIENTE)
+  status      VisitStatus @default(EN_CURSO)
+  note        String?   // Opcional
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdById String
+
+  @@index([date, time])
+}
+
+enum Department {
+  ADMINISTRACION
+  PROVEEDORES
+  SERVICIO_AL_CLIENTE
+  VENTAS
+}
+
+enum VisitStatus {
+  EN_CURSO
+  FINALIZADO
+}
