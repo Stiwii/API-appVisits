@@ -1,6 +1,6 @@
 const { optional } = require("zod");
 const prisma = require("../shared/client");
-// const { hashPassword } = require('../utils/crypto')
+const { hashPassword } = require("../utils/crypto");
 
 class UserModel {
   static async getAll(query) {
@@ -33,18 +33,19 @@ class UserModel {
   }
 
   static async getById({ id }) {
-    return await prisma.user.findUnique({ where: { id } });
+    return await prisma.user.findFirst({ where: { id } });
   }
-  static async getByUsername({ username }) {
+
+  static async getByUsername( username ) {
     return await prisma.user.findUnique({ where: { username } });
   }
 
-  static async create({username,password }) {
-    // const hashedPassword = hashPassword(password)
+  static async create({username,password, role }) {
     return await prisma.user.create({
       data: {
         username: username, 
-        password: password
+        password: hashPassword(password),
+        role: role,
       }
     });
   }

@@ -1,16 +1,11 @@
 const UserModel = require('../user/userModel')
-const { comparePassword } = require('../utils/crypto') 
-const userModel = new UserModel()
-
+const { comparePassword } = require('../utils/crypto')
 
 class AuthModel {
 
-  constructor() {
-  }
-
-  async checkUsersCredentials(id, password) {
+  static async checkUsersCredentials({username, password}) {
     try {
-      let user = await userModel.getById(id)
+      let user = await UserModel.getByUsername(username)
       let verifyPassword = comparePassword(password, user.password)
       if (verifyPassword) return user
     } catch (error) {

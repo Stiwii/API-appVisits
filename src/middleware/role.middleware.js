@@ -1,6 +1,6 @@
 
 const jwt = require('jsonwebtoken');
-
+require('dotenv').config()
 // Suponemos que tienes una SECRET_KEY para verificar el JWT.
 
 function checkRole(allowedRoles) {
@@ -11,7 +11,7 @@ function checkRole(allowedRoles) {
       return res.status(403).send({ message: "No token provided." });
     }
 
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
       if (err) {
         return res.status(401).send({ message: "Failed to authenticate token." });
       }
