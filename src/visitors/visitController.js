@@ -20,32 +20,39 @@ class VisitController {
     }
   }
 
-  static async getById(req, res,) {
+  static async getById(req, res,next) {
     const { id } = req.params;
+    try{
     const visit = await VisitModel.getById({ id });
-    if (visit) return res.json(visit);
-    res.status(404).json({ message: "Visit not found" });
+     return res.json(visit);
+  }
+    catch(error){
+      next(error)
+    }
   }
 
   static async create(req, res, next) {
-    const result = validateVisit(req.body);
-    if (!result.success) {
-      return res.status(400).json({ error: JSON.parse(result.error.message) });
+    try {
+      const result = validateVisit(req.body);
+      if (!result.success) {
+        res.status(400).json({ error: JSON.parse(result.error.message) });
+      }
+      const newVisit = await VisitModel.create(req.body);
+      res.status(201).json(newVisit);
     }
-    const newVisit = await VisitModel.create(req.body);
-    res.status(201).json(newVisit);
+    catch (error) {
+      next(error)
+    }
   }
 
-  static async delete(req, res) {
-    const { id } = req.params;
-
-    const result = await VisitModel.delete({ id });
-
-    if (result === false) {
-      return res.status(404).json({ message: "Visit not found" });
-    }
-
-    return res.json({ message: "Visit deleted" });
+  static async delete(req, res,next) {
+    try{
+      const { id } = req.params;
+    const visit = await VisitModel.delete({ id });
+    return res.json({ message: "Visit deleted", results: visit });
+  }catch(error){
+    next(error)
+  }
   }
 
   static async update(req, res) {
@@ -56,16 +63,16 @@ class VisitController {
 
     const { id } = req.params;
 
-    // const updatedVisit = await VisitModel.update({
-    //   id,
-    //   input: result.data,
-    // });
-    
+    const updatedVisit = await VisitModel.update({
+      id,
+      input: result.data,
+    });
+
     return res.json(
       updatedVisit ? updatedVisit : { message: "Visit not found" }
     );
   }
-  static async updateReception(req, res) {
+  static async updateReception(req, res, next) {
     const result = validatePartialVisit(req.body);
     if (!result.success) {
       return res.status(400).json({ error: JSON.parse(result.error.message) });
@@ -77,7 +84,7 @@ class VisitController {
       id,
       input: result.data,
     });
-    
+
     return res.json(
       updatedVisit ? updatedVisit : { message: "Visit not found" }
     );

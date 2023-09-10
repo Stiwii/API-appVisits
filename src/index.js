@@ -3,6 +3,8 @@ const cors = require('cors')
 const userRouter = require('./users/user.routes');
 const authRouter = require('./auth/auth.routes');
 const visitRouter = require('./visitors/visit.routes');
+const routerErrorHandler = require('./middleware/error.routes');
+// const { swaggerDocs: V1SwaggerDocs } = require('./utils/swagger')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +25,8 @@ app.get('/', (req, res) => {
 app.use('/auth',authRouter)
 app.use('/user',userRouter)
 app.use('/visits',visitRouter)
+routerErrorHandler(app)
+// V1SwaggerDocs(app, process.env.PORT)
 
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);

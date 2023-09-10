@@ -1,6 +1,7 @@
 const { optional } = require("zod");
 const prisma = require("../shared/client");
 const { hashPassword } = require("../utils/crypto");
+const CustomError = require("../utils/custom-error");
 
 class UserModel {
   static async getAll(query) {
@@ -33,11 +34,15 @@ class UserModel {
   }
 
   static async getById({ id }) {
-    return await prisma.user.findFirst({ where: { id } });
+    const user = await prisma.user.findFirst({ where: { id } });
+    if (user === null) throw new CustomError('user not found', 404, 'Not Found')
+    return user 
   }
 
   static async getByUsername( username ) {
-    return await prisma.user.findUnique({ where: { username } });
+    const user =await prisma.user.findUnique({ where: { username } });
+    if (user === null) throw new CustomError('username not found', 404, 'Not Found')
+    return user
   }
 
   static async create({username,password, role }) {

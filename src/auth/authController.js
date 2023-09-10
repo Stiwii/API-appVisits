@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 class AuthController {
-    static async createToken(req, res) {
+    static async createToken(req, res, next) {
         try {
             let user = await AuthModel.checkUsersCredentials(req.body)
             const token = jwt.sign({
@@ -16,7 +16,7 @@ class AuthController {
                 token: token
               })
         } catch (error) {
-            throw error
+            next(error)
         }
     }
 }
