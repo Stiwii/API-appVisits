@@ -5,5 +5,4 @@ const authRouter = Router();
 
 authRouter.post("/login", AuthController.createToken);
 
-
 module.exports = authRouter;
