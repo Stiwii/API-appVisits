@@ -58,7 +58,7 @@ class UserController {
     }
 
     const { id } = req.params;
-
+ 
     const updatedUser = await UserModel.update({
       id,
       input: result.data,

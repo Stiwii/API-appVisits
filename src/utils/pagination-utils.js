@@ -32,16 +32,16 @@ const getPagination = (page, size, defaultSize = '10') => {
   }
   
   const getPagingData = (data, page, limit) => {
-    const { total:count, users: results , totalUsers} = data
+    const { total:count, data: results , totalData} = data
     const limited = parseInt(limit)
     let currentPage = page ? +page : 0
     if (currentPage <= 0) { currentPage = 1 }
-    const totalPages = Math.ceil( totalUsers /limit)
+    const totalPages = Math.ceil( totalData /limit)
     // console.log(totalPerPage)
     // console.log(total)
     // console.log(totalPages)
     if (totalPages <= 0) { currentPage = 1 }
-    return { totalUsers, usersInPage:count, limit:limited, totalPages, currentPage, results }
+    return { total:totalData, datePerPage:count, Pages:totalPages, currentPage, results }
   }
   
   module.exports = {

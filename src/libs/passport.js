@@ -5,7 +5,7 @@ const { ExtractJwt } = require('passport-jwt')
 const passport = require('passport')
 require('dotenv').config()
 
-const UserModel = require('../user/userModel')
+const UserModel = require('../users/userModel')
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),

@@ -22,13 +22,13 @@ class UserModel {
     //     mode: "insensitive" // Para que sea case-insensitive
     //   };
     // }
-    const users = await prisma.user.findMany(options);
+    const data = await prisma.user.findMany(options);
     const total = await prisma.user.count(options);
-    const totalUsers = await prisma.user.count();
+    const totalData = await prisma.user.count();
     return {
-      users,
+      data,
       total,
-      totalUsers
+      totalData
     };
   }
 

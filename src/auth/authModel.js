@@ -1,4 +1,4 @@
-const UserModel = require('../user/userModel')
+const UserModel = require('../users/userModel')
 const { comparePassword } = require('../utils/crypto')
 
 class AuthModel {

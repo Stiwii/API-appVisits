@@ -16,6 +16,8 @@ model User {
   password String    // Considera usar hashing para la seguridad de las contraseñas
   role     UserRole  @default(RECEPCION)
   visits   Visit[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   @@index([username, password])
 }
@@ -26,7 +28,7 @@ enum UserRole {
 }
 
 model Visit {
-  id          Int      @id @default(autoincrement())
+  id          String    @id @default(uuid())
   date        DateTime
   time        DateTime
   fullName    String
@@ -38,6 +40,8 @@ model Visit {
   note        String?   // Opcional
   createdBy   User      @relation(fields: [createdById], references: [id])
   createdById String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   @@index([date, time])
 }

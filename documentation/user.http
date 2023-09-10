@@ -1,20 +1,5 @@
-### Probe APi
-POST http://localhost:8000/auth/login
-Content-Type: application/json
-
-{
-    "username": "genesis",
-    "password": "1234",
-    "role": "SUPERVISOR"
-}
-
 ### Get all users
 GET http://localhost:8000/user
-Content-Type: application/xml
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZhMmRjNThjLTliM2UtNDBiZS04NzVkLWVlNGI3MzQ4ZTIwYyIsInVzZXJuYW1lIjoiZ2VuZXNpcyIsInJvbGUiOiJTVVBFUlZJU09SIiwiaWF0IjoxNjk0MjMzMjI1LCJleHAiOjE2OTQzMTk2MjV9.z7YpQ5tiJheHtwM6le_8M6t5vPD1kbtAvi_HzzLg-rY
-
-### Get all users with size of pagination and number of page
-GET http://localhost:8000/user?size=3&page=1
 
 ### Get a user by id
 GET http://localhost:8000/user/1072ae48-e783-44c2-9dae-0572cbb6c7df
@@ -29,13 +14,6 @@ Content-Type: application/json
     "role": "SUPERVISOR"
 }
 
-### Update a user
-PATCH http://localhost:8000/user/1072ae48-e783-44c2-9dae-0572cbb6c7df
-Content-Type: application/json
-
-{
-    "username": "Alexis"
-}
 
 ### Delete a user
-DELETE http://localhost:8000/user/a0115ae0-005e-4916-8c10-ea64e0eb0654
+DELETE http://localhost:8000/user/4be3aaca-7a6c-4d32-8ba1-bba397153220
