@@ -14,7 +14,7 @@ const visitSchema = z.object({
   department: departmentEnum,
   status: visitStatusEnum,
   note: z.string().optional(),
-  createdById: z.string()
+  // createdById: z.string()
 });
 
 function validateVisit(input) {

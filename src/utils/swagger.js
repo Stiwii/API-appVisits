@@ -8,7 +8,7 @@ const options = {
       description: '',
       version: '1.0.0'
     },
-    servers: [{url: process.env.DOMAIN}],
+    servers: [{ url: process.env.DOMAIN }],
     tags: [
       {
         name: "Authorization", // name of a tag
@@ -48,14 +48,12 @@ const options = {
               format: "uuid"
             },
             username: {
-              type: "string", // data-type
-              description: "Todo's title", // desc
-              example: "Coding in JavaScript", // example of a title
+              type: "string", // data-type   
+              example: "newUser", // example of a title
             },
             password: {
-              type: "boolean", // data type
-              description: "The status of the todo", // desc
-              example: false, // example of a completed value
+              type: "string", // data type
+              example: '1hk671k178k.shj8.', // example of a completed value
             },
             role: {
               type: "string",
@@ -71,6 +69,90 @@ const options = {
             },
 
           },
+        },
+        Visit: {
+          type: "object",
+          properties:
+          {
+            id:
+            {
+              type: "string",
+              example: "30bb14f1-3fed-4389-8186-9f0160d0bc44"
+            },
+            date:
+            {
+              type: "string",
+              format: "date - time",
+              example: "2021-09-08T00:00:00.146Z"
+            },
+            time:
+            {
+              type: "string",
+              format: "date - time",
+              example: "2000-01-01T15:30:00.146Z"
+            },
+            fullName:
+            {
+              type: "string",
+              example: "Juan Flores"
+            },
+            idNumber:
+            {
+              type: "string",
+              example: "1234567899"
+            },
+            entryDate:
+            {
+              type: "string",
+              format:"date - time",
+              example: "2021-09-08T22:15:10.146Z"
+            },
+            visitReason:
+            {
+              type: "string",
+              example: "educación"
+            },
+            department:
+            {
+              type: "string",
+              enum: [
+                "ADMINISTRACION",
+                "PROVEEDORES",
+                "SERVICIO_AL_CLIENTE",
+                "VENTAS"],
+              example: "ADMINISTRACION"
+            },
+            status:
+            {
+              type: "string",
+              enum:
+                ["EN_CURSO",
+                  "FINALIZADO"],
+              example: "EN_CURSO"
+            },
+            note:
+            {
+              type: "string",
+              example: "nueva nota"
+            },
+            createdById:
+            {
+              type: "string",
+              example: "2119a3a9-0de8-433a-aa60-8ddbc4f74d3e"
+            },
+            createdAt:
+            {
+              type: "string",
+              format: "date - time",
+              example: "2023-09-10T00:31:21.531Z"
+            },
+            updatedAt:
+            {
+              type: "string",
+              format: "date - time",
+              example: "2023-09-10T04:24:07.388Z"
+            }
+          }
         },
         UserPaginationResult:
         {
@@ -98,9 +180,10 @@ const options = {
             },
             results:
             {
-              type: "object",
+              type: "array",
               items:
-                {'$ref' : '#/components/schemas/User'}}
+                { '$ref': '#/components/schemas/User' }
+            }
           }
         },
         VisitPaginationResult:
@@ -131,7 +214,8 @@ const options = {
             {
               type: "object",
               items:
-                {'$ref' : '#/components/schemas/User'}}
+                { '$ref': '#/components/schemas/User' }
+            }
           }
         },
         Error: {
@@ -165,8 +249,8 @@ const options = {
         }
       },
     },
-    paths:{
-      '/login': {
+    paths: {
+      '/auth/login': {
         post: {
           tags: [
             'Authorization'
@@ -219,6 +303,44 @@ const options = {
           }
         }
       },
+      '/user':{
+        get: {
+          tags: [
+            'User'
+          ],
+          summary: 'Get All Users',
+          description: '<strong>Get</strong> my information through the <strong>token</strong>',
+          operationId: 'userInfo',
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    "$ref": "#components/schemas/UserPaginationResult"
+                  }
+                }
+              }
+            },
+            'Error?': {
+              description: 'The StatusCode shows HTTP response status code',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#/components/schemas/Error'
+                  }
+                }
+              }
+            }
+          },
+          // security: [
+          //   {
+          //     bearerAuth: []
+          //   }]
+        }
+      },
+      '/visits':{},
+      '/visits/{visitId}':{}
     }
   },
   apis: ['./src/users/user.routes.js', './src/auth/auth.routes.js']

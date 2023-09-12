@@ -1,6 +1,8 @@
 const { validateVisit, validatePartialVisit } = require("./visitSchema");
 const VisitModel = require("./visitModel");
 const { getPagination, getPagingData } = require("../utils/pagination-utils");
+const jwt = require('jsonwebtoken');
+require('dotenv').config()
 
 class VisitController {
   static async getAll(req, res, next) {
@@ -34,10 +36,16 @@ class VisitController {
   static async create(req, res, next) {
     try {
       const result = validateVisit(req.body);
+      const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+      const createdById = jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+        const userId = decoded.id;
+        console.log(userId)
+        return userId
+      });
       if (!result.success) {
         res.status(400).json({ error: JSON.parse(result.error.message) });
       }
-      const newVisit = await VisitModel.create(req.body);
+      const newVisit = await VisitModel.create(req.body, createdById);
       res.status(201).json(newVisit);
     }
     catch (error) {

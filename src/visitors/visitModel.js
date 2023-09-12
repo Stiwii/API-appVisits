@@ -57,9 +57,9 @@ class VisitModel {
     visitReason,
     department,
     status,
-    note,
-    createdById,
-  }) {
+    note
+  },
+  createdById) {
 
     try {
       const visit = await prisma.visit.create({
