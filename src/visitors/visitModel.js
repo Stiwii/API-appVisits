@@ -64,8 +64,8 @@ class VisitModel {
     try {
       const visit = await prisma.visit.create({
         data: {
-          date,
-          time,
+          // date,
+          // time,
           fullName,
           idNumber,
           entryDate,

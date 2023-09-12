@@ -10,7 +10,7 @@ const { options } = require('./utils/swagger')
 require('dotenv').config()
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 app.use(express.json())  //permitir jsaon 
 app.use(express.urlencoded({ extended: true })) //analizar datos de formularios con estructura de anidamiento

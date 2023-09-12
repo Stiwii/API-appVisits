@@ -11,13 +11,14 @@ const options = {
     servers: [{ url: process.env.DOMAIN }],
     tags: [
       {
-        name: "Authorization", // name of a tag
-        description: 'Operations about authorization'
-      },
-      {
         name: 'User',
         description: 'Operations about user'
       },
+      {
+        name: "Authorization", // name of a tag
+        description: 'Operations about authorization'
+      },
+      
       {
         name: 'Visit',
         description: 'Operations about visit'
@@ -70,6 +71,23 @@ const options = {
 
           },
         },
+        NewUser: {
+          type: "object", // data type
+          properties: {
+            username: {
+              type: "string", // data-type   
+              example: "newUser", // example of a title
+            },
+            password: {
+              type: "string", // data type
+              example: '1234', // example of a completed value
+            },
+            role: {
+              type: "string",
+              enum: ["SUPERVISOR", "RECEPCION"]
+            },
+          },
+        },
         Visit: {
           type: "object",
           properties:
@@ -78,18 +96,6 @@ const options = {
             {
               type: "string",
               example: "30bb14f1-3fed-4389-8186-9f0160d0bc44"
-            },
-            date:
-            {
-              type: "string",
-              format: "date - time",
-              example: "2021-09-08T00:00:00.146Z"
-            },
-            time:
-            {
-              type: "string",
-              format: "date - time",
-              example: "2000-01-01T15:30:00.146Z"
             },
             fullName:
             {
@@ -104,7 +110,7 @@ const options = {
             entryDate:
             {
               type: "string",
-              format:"date - time",
+              format: "date - time",
               example: "2021-09-08T22:15:10.146Z"
             },
             visitReason:
@@ -152,6 +158,74 @@ const options = {
               format: "date - time",
               example: "2023-09-10T04:24:07.388Z"
             }
+          }
+        },
+        VisitCreate: {
+          type: "object",
+          properties:
+          {
+            fullName:
+            {
+              type: "string",
+              example: "Juan Flores"
+            },
+            idNumber:
+            {
+              type: "string",
+              example: "1234567899"
+            },
+            entryDate:
+            {
+              type: "string",
+              format: "date - time",
+              example: "2021-09-08T22:15:10.146Z"
+            },
+            visitReason:
+            {
+              type: "string",
+              example: "Testing"
+            },
+            department:
+            {
+              type: "string",
+              enum: [
+                "ADMINISTRACION",
+                "PROVEEDORES",
+                "SERVICIO_AL_CLIENTE",
+                "VENTAS"],
+              example: "ADMINISTRACION"
+            },
+            status:
+            {
+              type: "string",
+              enum:
+                ["EN_CURSO",
+                  "FINALIZADO"],
+              example: "EN_CURSO"
+            },
+            note:
+            {
+              type: "string",
+              example: "Nota o comentario"
+            }
+          }
+        },
+        UpdateVisit: {
+          type: 'object',
+          properties: {
+            note:
+            {
+              type: "string",
+              example: "Comentario actualizado"
+            },
+            status:
+            {
+              type: "string",
+              enum:
+                ["EN_CURSO",
+                  "FINALIZADO"],
+              example: "FINALIZADO"
+            },
           }
         },
         UserPaginationResult:
@@ -249,6 +323,7 @@ const options = {
         }
       },
     },
+
     paths: {
       '/auth/login': {
         post: {
@@ -259,7 +334,7 @@ const options = {
           description: 'After LogIn token is generated',
           operationId: 'LogIn',
           requestBody: {
-            description: 'The email property is unique and the default profile is public',
+            description: 'test users: <ul><li>username:"user1", password: "1234", role:"SUPERVISOR"</li><li>username:"user2", password: "1234", role:"RECEPCION"</li></ul>',
             content: {
               'application/json': {
                 schema: {
@@ -303,7 +378,7 @@ const options = {
           }
         }
       },
-      '/user':{
+      '/user': {
         get: {
           tags: [
             'User'
@@ -337,10 +412,269 @@ const options = {
           //   {
           //     bearerAuth: []
           //   }]
-        }
+        },
+        post: {
+          tags: [
+            'User'
+          ],
+          summary: 'Create new USER ',
+          description: 'Create New User | ',
+          operationId: 'CreateUser',
+          requestBody: {
+            description: 'Create new User | roles allowed : RECEPCION, SUPERVISOR',
+            content: {
+              'application/json': {
+                schema: {
+                  '$ref':'#components/schemas/NewUser'
+                }
+              }
+            },
+            required: true
+          },
+          responses: {
+            200: {
+              description: 'Successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#components/schemas/User'
+                  }
+                }
+              }
+            },
+            'Error?': {
+              description: 'The StatusCode shows HTTP response status code',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#/components/schemas/Error'
+                  }
+                }
+              }
+            }
+          },
+          security: [
+            {
+              bearerAuth: []
+            }]
+        },
       },
-      '/visits':{},
-      '/visits/{visitId}':{}
+      '/visits': {
+        get: {
+          tags: [
+            'Visit'
+          ],
+          summary: 'Obtein all Visits | Role RECEPTION, SUPERVISOR',
+          description: 'Visits View',
+          operationId: 'VisitView',
+          parameters: [
+            {
+              name: 'size',
+              in: 'query',
+              description: 'Pagination | How many instances per request',
+              schema: {
+                type: 'integer'
+              },
+              example: '10'
+            },
+            {
+              name: 'page',
+              in: 'query',
+              description: 'Pagination | From which page will start counting to return instances | Starts from 1 by default',
+              schema: {
+                type: 'integer'
+              },
+              example: '1'
+            },
+          ],
+          responses: {
+            200: {
+              description: 'Successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#components/schemas/Visit'
+                  }
+                }
+              }
+            },
+            'Error?': {
+              description: 'The StatusCode shows HTTP response status code',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#/components/schemas/Error'
+                  }
+                }
+              }
+            }
+          },
+          security: [
+            {
+              bearerAuth: []
+            }]
+        },
+        post: {
+          tags: [
+            'Visit'
+          ],
+          summary: 'Create new Visit | role RECEPTION',
+          description: 'Create New Visit | The <strong>userId</strong> will be validated with the <strong>token</strong>',
+          operationId: 'CreateVisit',
+          parameters: [
+            {
+              name: 'Visitid',
+              in: 'path',
+              description: 'ID of Visit',
+              required: true,
+              schema: {
+                type: 'string',
+                format: 'integer'
+              }
+            }],
+          requestBody: {
+            description: 'Create new Visit',
+            content: {
+              'application/json': {
+                schema: {
+                  '$ref': '#components/schemas/VisitCreate'
+
+                }
+              }
+            },
+            required: true
+          },
+          responses: {
+            200: {
+              description: 'Successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#components/schemas/Visit'
+                  }
+                }
+              }
+            },
+            'Error?': {
+              description: 'The StatusCode shows HTTP response status code',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#/components/schemas/Error'
+                  }
+                }
+              }
+            }
+          },
+          security: [
+            {
+              bearerAuth: []
+            }]
+        },
+      },
+      '/visits/{visitId}': {
+        get: {
+          tags: [
+            'Visit'
+          ],
+          summary: 'Get only one visit',
+          description: '<strong>Get</strong> my information through the <strong>token</strong>',
+          operationId: 'userInfo',
+          parameters: [
+            {
+              name: 'Visitid',
+              in: 'path',
+              description: 'ID of Visit',
+              required: true,
+              schema: {
+                type: 'string',
+                format: 'integer'
+              }
+            }],
+          responses: {
+            '200': {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    "$ref": "#components/schemas/Visit"
+                  }
+                }
+              }
+            },
+            'Error?': {
+              description: 'The StatusCode shows HTTP response status code',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#/components/schemas/Error'
+                  }
+                }
+              }
+            }
+          },
+          security: [
+            {
+              bearerAuth: []
+            }]
+        },
+        patch: {
+          tags: [
+            'Visit'
+          ],
+          summary: 'Update my visit',
+          description: 'Update my user information | The <strong>userId</strong> will be validated with the <strong>token</strong>',
+          operationId: 'patchUser',
+          parameters: [
+            {
+              name: 'Visitid',
+              in: 'path',
+              description: 'ID of Visit',
+              required: true,
+              schema: {
+                type: 'string',
+                format: 'integer'
+              }
+            }],
+          requestBody: {
+            description: 'UPDATE is available only to role RECEPTION',
+            content: {
+              'application/json': {
+                schema: {
+                  '$ref': '#components/schemas/UpdateVisit'
+                }
+              }
+            },
+            required: true
+          },
+          responses: {
+            200: {
+              description: 'Successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#components/schemas/Visit'
+                  }
+                }
+              }
+            },
+            'Error?': {
+              description: 'The StatusCode shows HTTP response status code',
+              content: {
+                'application/json': {
+                  schema: {
+                    '$ref': '#/components/schemas/Error'
+                  }
+                }
+              }
+            }
+          },
+          security: [
+            {
+              bearerAuth: []
+            }]
+        }
+      }
     }
   },
   apis: ['./src/users/user.routes.js', './src/auth/auth.routes.js']

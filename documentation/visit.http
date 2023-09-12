@@ -1,7 +1,7 @@
 ### Get all visitss
 GET http://localhost:8000/visits
 Content-Type: application/xml
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMTlhM2E5LTBkZTgtNDMzYS1hYTYwLThkZGJjNGY3NGQzZSIsInVzZXJuYW1lIjoic3RlZXZlbiIsInJvbGUiOiJSRUNFUENJT04iLCJpYXQiOjE2OTQ0MDg5NjMsImV4cCI6MTY5NDQ5NTM2M30.SqqneyVD2erjbvjIrBVGvCroNEDQxzmKk2RfOHEvLFQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMTlhM2E5LTBkZTgtNDMzYS1hYTYwLThkZGJjNGY3NGQzZSIsInVzZXJuYW1lIjoic3RlZXZlbiIsInJvbGUiOiJSRUNFUENJT04iLCJpYXQiOjE2OTQ1MzUwNDIsImV4cCI6MTY5NDYyMTQ0Mn0.YAUTpSk1Rm5WDedfJb6WI-VV8LnloPhczKyqSvj2Pro
 
 ### Get all visitss with size of pagination and number of page
 GET http://localhost:8000/visits?size=2&page=1
@@ -16,32 +16,30 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMTlhM2E5L
 ### Ceate a visits
 POST http://localhost:8000/visits
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMTlhM2E5LTBkZTgtNDMzYS1hYTYwLThkZGJjNGY3NGQzZSIsInVzZXJuYW1lIjoic3RlZXZlbiIsInJvbGUiOiJSRUNFUENJT04iLCJpYXQiOjE2OTQ0MDg5NjMsImV4cCI6MTY5NDQ5NTM2M30.SqqneyVD2erjbvjIrBVGvCroNEDQxzmKk2RfOHEvLFQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNjN2JiZGYzLWU1NWMtNDA4NS05MjFiLTQ1ZjhhYWZmNmI3NCIsInVzZXJuYW1lIjoidXNlcjIiLCJyb2xlIjoiUkVDRVBDSU9OIiwiaWF0IjoxNjk0NTQwNjM0LCJleHAiOjE2OTQ2MjcwMzR9.701weiNerDDo6VcafF0zJx-WWQffbgsCuZF9yEPQp70
 
 {
-  "date": "2021-09-08T00:00:00.146Z",
-  "time": "2000-01-01T15:30:00.146Z",
   "fullName" : "Maria Mercedes" ,
-  "idNumber": "0987654300",
-  "entryDate": "2021-09-08T22:15:10.146Z",
+  "idNumber": "0987654555",
+  "entryDate": "2023-09-05T22:56:00.000Z",
   "visitReason": "educación",
   "department": "ADMINISTRACION",
   "status": "EN_CURSO"
 }
 
 ### Update a visits
-PATCH http://localhost:8000/visits/30bb14f1-3fed-4389-8186-9f0160d0bc44
+PATCH http://localhost:8000/visits/351cbdba-7e27-42b2-8e84-d54aac04f743
 Content-Type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMTlhM2E5LTBkZTgtNDMzYS1hYTYwLThkZGJjNGY3NGQzZSIsInVzZXJuYW1lIjoic3RlZXZlbiIsInJvbGUiOiJSRUNFUENJT04iLCJpYXQiOjE2OTQzMDU3MzUsImV4cCI6MTY5NDM5MjEzNX0.A3aN5DTZFMKGsu89LpHG1L1Oa6JmZ2exjkc-ZwAG2O8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNjN2JiZGYzLWU1NWMtNDA4NS05MjFiLTQ1ZjhhYWZmNmI3NCIsInVzZXJuYW1lIjoidXNlcjIiLCJyb2xlIjoiUkVDRVBDSU9OIiwiaWF0IjoxNjk0NTQwNjM0LCJleHAiOjE2OTQ2MjcwMzR9.701weiNerDDo6VcafF0zJx-WWQffbgsCuZF9yEPQp70
 
 {
-    "status": "EN_CURSO"
+    "status": "FINALIZADO"
 }
 
 ### Update a visits
 PATCH http://localhost:8000/visits/30bb14f1-3fed-4389-8186-9f0160d0bc44
 Content-Type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMTlhM2E5LTBkZTgtNDMzYS1hYTYwLThkZGJjNGY3NGQzZSIsInVzZXJuYW1lIjoic3RlZXZlbiIsInJvbGUiOiJSRUNFUENJT04iLCJpYXQiOjE2OTQzMDU3MzUsImV4cCI6MTY5NDM5MjEzNX0.A3aN5DTZFMKGsu89LpHG1L1Oa6JmZ2exjkc-ZwAG2O8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMTlhM2E5LTBkZTgtNDMzYS1hYTYwLThkZGJjNGY3NGQzZSIsInVzZXJuYW1lIjoic3RlZXZlbiIsInJvbGUiOiJSRUNFUENJT04iLCJpYXQiOjE2OTQ1MzUwNDIsImV4cCI6MTY5NDYyMTQ0Mn0.YAUTpSk1Rm5WDedfJb6WI-VV8LnloPhczKyqSvj2Pro
 
 {
     "note": "nueva nota"

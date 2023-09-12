@@ -5,8 +5,6 @@ const departmentEnum = z.enum(['ADMINISTRACION', 'PROVEEDORES', 'SERVICIO_AL_CLI
 const visitStatusEnum = z.enum(['EN_CURSO', 'FINALIZADO']);
 
 const visitSchema = z.object({
-  date: z.string().pipe( z.coerce.date() ),
-  time: z.string().pipe( z.coerce.date() ),
   fullName: z.string().min(3),
   idNumber: z.string().length(10),
   entryDate: z.string().pipe( z.coerce.date() ),
